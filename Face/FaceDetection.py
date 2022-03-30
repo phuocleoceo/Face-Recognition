@@ -34,7 +34,7 @@ class FaceDetection():
                 rec.append([x, y, x+w, y+h])
         return rec
 
-    def DrawRecToImg(self, image, rec):
+    def Draw_Rec_To_Img(self, image, rec):
         """
         Hàm vẽ khung HCN quanh ảnh khuôn mặt
         image : ảnh
@@ -45,7 +45,7 @@ class FaceDetection():
             cv2.rectangle(img, (x1, y1), (x2, y2), (255, 0, 0), thickness=5)
         return img
 
-    def CropFace(self, image, rec):
+    def Crop_Face(self, image, rec):
         """
         Hàm trả về ma trận của khuôn mặt detect được
         image : ảnh

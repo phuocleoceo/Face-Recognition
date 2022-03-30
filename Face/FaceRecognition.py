@@ -21,7 +21,7 @@ class FaceRecognition():
         with open(db_path, "r") as db:
             self.database = json.load(db)
 
-    def PreprocessingIMG(self, image):
+    def Preprocessing_IMG(self, image):
         """
         Hàm tiền xử lý ảnh
         """
@@ -38,45 +38,50 @@ class FaceRecognition():
 
         return processed_img
 
-    # Áp dụng chuẩn hóa Norm2 để tránh Overfitting
-    def L2Normalize(self, embed, axis=-1, epsilon=1e-10):
+    def L2_Normalize(self, embed, axis=-1, epsilon=1e-10):
+        """
+        Áp dụng chuẩn hóa Norm2 để tránh Overfitting
+        embed : vector đặc trưng được model trích xuất
+        """
         square_sum = np.sum(np.square(embed), axis=axis, keepdims=True)
         square_sum = np.maximum(square_sum, epsilon)
         return embed / np.sqrt(square_sum)
 
-    def GetFaceEmbedding(self, face):
+    def Get_Face_Embedding(self, face):
         # Tiền xử lý ảnh khuôn mặt sau đó thêm chiều
-        processed_face = self.PreprocessingIMG(face)
+        processed_face = self.Preprocessing_IMG(face)
         processed_face = np.expand_dims(processed_face, axis=0)
 
         # Dùng model để trích xuất vector đặc trưng
         face_embedding = self.model.predict(processed_face)
         # Chuẩn hóa Norm2
-        face_embedding = self.L2Normalize(face_embedding)
+        face_embedding = self.L2_Normalize(face_embedding)
         return face_embedding
 
-    def CalculateDistance(self, embd_real, embd_candidate):
+    def Euclidean_Distance(self, embd_db, embd_recog):
         """
         Hàm tính khoảng cách Euclidean giữa 2 vector
-        embd_real : vector khuôn mặt đang được lưu trong database
-        embd_candidate : vector khuôn mặt đang nhận dạng
+        embd_db : vector khuôn mặt đang được lưu trong database
+        embd_recog : vector khuôn mặt đang nhận dạng
         """
-        # return np.sqrt(np.sum((embd_real-embd_candidate)**2))
-        return distance.euclidean(embd_real, embd_candidate)
+        # return np.sqrt(np.sum((embd_db-embd_recog)**2))
+        return distance.euclidean(embd_db, embd_recog)
 
-    def Identify(self, face_embedding):
+    def Face_Identify(self, face_embedding):
         """
         Hàm xác định danh tính khuôn mặt
         face_embedding : vector đặc trưng khuôn mặt đang xét
         """
+        # Từ điển chứa khoảng cách Euclidean từ face_embedding đến các vector trong database
         distance = {}
-        min_dist = 9999
-        person_name = ""
-        for name, embedding in self.database.items():
-            distance[name] = self.CalculateDistance(embedding, face_embedding)
-            if distance[name] < min_dist:
-                min_dist = distance[name]
-                person_name = name
+        for name, embd in self.database.items():
+            distance[name] = self.Euclidean_Distance(embd, face_embedding)
+
+        # Lấy key có value nhỏ nhất trong distance
+        person_name = min(distance, key=distance.get)
+        min_dist = distance[person_name]
+
+        # Nếu khoảng cách > 1 thì người đang xét không có trong Database
         if min_dist > 1:
             person_name = "UNKNOWN"
         return person_name, min_dist
