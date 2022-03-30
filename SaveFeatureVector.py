@@ -44,10 +44,10 @@ def Get_People_Feature():
     recog = FaceRecognition()
 
     people = listdir(People_img_path)
-    for person in people:
-        name = person.split('.')[0]
-        face = cv2.imread(join(People_img_path, person))
-        face_embd = recog.get_face_embedding(face).flatten().tolist()
+    for p in people:
+        name = p.split('.')[0]
+        face = cv2.imread(join(People_img_path, p))
+        face_embd = recog.Get_Face_Embedding(face).flatten().tolist()
         Save_Feature_To_Database(name, face_embd)
 
 
