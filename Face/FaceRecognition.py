@@ -29,6 +29,8 @@ class FaceRecognition():
         img = cv2.resize(image, (160, 160))
         img = np.asarray(img, 'float32')
 
+        # per_image_standardization
+        # Mean 0 phương sai 1, giúp ảnh khi xử lý không gặp trường hợp Chia cho 0
         mean = np.mean(img, axis=(0, 1, 2), keepdims=True)
         std = np.std(img, axis=(0, 1, 2), keepdims=True)
         std_adj = np.maximum(std, 1.0/np.sqrt(img.size))
@@ -36,11 +38,11 @@ class FaceRecognition():
 
         return processed_img
 
-    # Áp dụng Norm2 để tránh Overfitting
+    # Áp dụng chuẩn hóa Norm2 để tránh Overfitting
     def L2Normalize(self, embed, axis=-1, epsilon=1e-10):
         square_sum = np.sum(np.square(embed), axis=axis, keepdims=True)
-        output = embed / np.sqrt(np.maximum(square_sum, epsilon))
-        return output
+        square_sum = np.maximum(square_sum, epsilon)
+        return embed / np.sqrt(square_sum)
 
     def GetFaceEmbedding(self, face):
         # Tiền xử lý ảnh khuôn mặt sau đó thêm chiều
@@ -59,17 +61,22 @@ class FaceRecognition():
         embd_real : vector khuôn mặt đang được lưu trong database
         embd_candidate : vector khuôn mặt đang nhận dạng
         """
+        # return np.sqrt(np.sum((embd_real-embd_candidate)**2))
         return distance.euclidean(embd_real, embd_candidate)
 
-    def Identity(self, face_embedding):
+    def Identify(self, face_embedding):
+        """
+        Hàm xác định danh tính khuôn mặt
+        face_embedding : vector đặc trưng khuôn mặt đang xét
+        """
         distance = {}
-        minimum_distance = None
+        min_dist = 9999
         person_name = ""
         for name, embedding in self.database.items():
             distance[name] = self.CalculateDistance(embedding, face_embedding)
-            if minimum_distance == None or distance[name] < minimum_distance:
-                minimum_distance = distance[name]
+            if distance[name] < min_dist:
+                min_dist = distance[name]
                 person_name = name
-        if minimum_distance > 1:
+        if min_dist > 1:
             person_name = "UNKNOWN"
-        return person_name, minimum_distance
+        return person_name, min_dist
