@@ -41,6 +41,9 @@ def Save_Feature_To_Database(person_name, feature_vector):
 
 
 def Get_People_Feature():
+    """
+    Hàm đọc hình ảnh người, trích xuất đặc trưng để lưu vào DB
+    """
     recog = FaceRecognition()
 
     people = listdir(People_img_path)
