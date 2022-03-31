@@ -1,11 +1,47 @@
 from Face.FaceRecognition import FaceRecognition
 from Face.FaceDetection import FaceDetection
+from scipy.spatial import distance
+from os.path import join, curdir
+import json
 
 
 class Facenet:
     def __init__(self):
         self.detector = FaceDetection()
         self.recognizer = FaceRecognition()
+
+        # Load database chứa các vector đặc trưng
+        db_path = join(curdir, 'Database', 'Database.json')
+        with open(db_path, "r") as db:
+            self.database = json.load(db)
+
+    def Euclidean_Distance(self, embd_db, embd_recog):
+        """
+        Hàm tính khoảng cách Euclidean giữa 2 vector
+        embd_db : vector khuôn mặt đang được lưu trong database
+        embd_recog : vector khuôn mặt đang nhận dạng
+        """
+        # return np.sqrt(np.sum((embd_db-embd_recog)**2))
+        return distance.euclidean(embd_db, embd_recog)
+
+    def Face_Identify(self, face_embedding):
+        """
+        Hàm xác định danh tính khuôn mặt
+        face_embedding : vector đặc trưng khuôn mặt đang xét
+        """
+        # Từ điển chứa khoảng cách Euclidean từ face_embedding đến các vector trong database
+        distance = {}
+        for name, embd in self.database.items():
+            distance[name] = self.Euclidean_Distance(embd, face_embedding)
+
+        # Lấy key có value nhỏ nhất trong distance
+        person_name = min(distance, key=distance.get)
+        min_dist = distance[person_name]
+
+        # Nếu khoảng cách > 1 thì người đang xét không có trong Database
+        if min_dist > 1:
+            person_name = "UNKNOWN"
+        return person_name, min_dist
 
     def Get_People_Identity(self, image, resize=True, scale=4):
         """
@@ -25,6 +61,6 @@ class Facenet:
             # Trích xuất đặc trưng
             face_embd = self.recognizer.Get_Face_Embedding(face)
             # Nhận dạng
-            person_name, distance = self.recognizer.Face_Identify(face_embd)
+            person_name, distance = self.Face_Identify(face_embd)
             identity.append((person_name, distance))
         return identity
