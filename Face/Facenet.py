@@ -32,7 +32,11 @@ class Facenet:
         # Từ điển chứa khoảng cách Euclidean từ face_embedding đến các vector trong database
         distance = {}
         for name, embd in self.database.items():
-            distance[name] = self.Euclidean_Distance(embd, face_embedding)
+            # Mỗi người sẽ có nhiều vector đặc trưng
+            # Ta tính khoảng cách từ mỗi vector đặc trưng đó đến face_embedding
+            euc_dist = [self.Euclidean_Distance(ed, face_embedding) for ed in embd]
+            # Gán distance của 1 người thành min của mảng khoảng cách vừa tính được
+            distance[name] = min(euc_dist)
 
         # Lấy key có value nhỏ nhất trong distance
         person_name = min(distance, key=distance.get)

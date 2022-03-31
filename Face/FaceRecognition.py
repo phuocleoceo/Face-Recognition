@@ -1,4 +1,4 @@
-from Face.inception_resnet_v1 import InceptionResNetV1
+# from Face.inception_resnet_v1 import InceptionResNetV1
 from keras.models import load_model
 from os.path import join, curdir
 import numpy as np
