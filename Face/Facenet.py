@@ -15,7 +15,7 @@ class Facenet:
         scale : tỉ lệ giảm kích thước ảnh
         """
         # Detect hình chữ nhật bao quanh khuôn mặt
-        rec = self.detector.Detect(image, resize, scale)
+        rec = self.detector.Detect_Face(image, resize, scale)
         # Ma trận gương mặt được detect
         face_crop = self.detector.Crop_Face(image, rec)
 

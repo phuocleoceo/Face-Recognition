@@ -7,7 +7,7 @@ class FaceDetection():
         # Sử dụng mạng MTCNN
         self.detector = MTCNN()
 
-    def Detect(self, image, resize=True, scale=4):
+    def Detect_Face(self, image, resize=True, scale=4):
         """
         Hàm trả về tọa độ 2 đỉnh 2 góc của HCN bao quanh khuôn mặt
         image : ảnh

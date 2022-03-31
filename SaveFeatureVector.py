@@ -1,4 +1,5 @@
 from Face.FaceRecognition import FaceRecognition
+from Face.FaceDetection import FaceDetection
 from os.path import join
 from os import listdir
 import json
@@ -44,13 +45,20 @@ def Get_People_Feature():
     """
     Hàm đọc hình ảnh người, trích xuất đặc trưng để lưu vào DB
     """
-    recog = FaceRecognition()
+    detector = FaceDetection()
+    recognizer = FaceRecognition()
 
     people = listdir(People_img_path)
     for p in people:
+        # Đọc file ảnh, lấy tên người
         name = p.split('.')[0]
         face = cv2.imread(join(People_img_path, p))
-        face_embd = recog.Get_Face_Embedding(face).flatten().tolist()
+        # Detect khuôn mặt
+        rec = detector.Detect_Face(face, speed_up=True, scale_factor=4)
+        # Crop ra khuôn mặt đầu tiên
+        face = detector.Crop_Face(face, rec)[0]
+        # Lấy vector đặc trưng rồi lưu vào database
+        face_embd = recognizer.Get_Face_Embedding(face).flatten().tolist()
         Save_Feature_To_Database(name, face_embd)
 
 
