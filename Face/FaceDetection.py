@@ -1,4 +1,4 @@
-from mtcnn.mtcnn import MTCNN
+from mtcnn import MTCNN
 import cv2
 
 
@@ -22,7 +22,8 @@ class FaceDetection():
             img = cv2.resize(img, (height//scale, width//scale))
 
         # MTCNN phát hiện gương mặt
-        faces = self.detector.detect_faces(img)
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        faces = self.detector.detect_faces(gray)
         # Lưu lại tọa độ 2 đỉnh HCN
         rec = []
         for f in faces:
