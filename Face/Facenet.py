@@ -11,7 +11,7 @@ class Facenet:
         self.recognizer = FaceRecognition()
 
         # Load database chứa các vector đặc trưng
-        db_path = join(curdir, 'Database', 'Database.json')
+        db_path = join(curdir, "Database", "Database.json")
         with open(db_path, "r") as db:
             self.database = json.load(db)
 
@@ -66,5 +66,5 @@ class Facenet:
             face_embd = self.recognizer.Get_Face_Embedding(face)
             # Nhận dạng
             person_name, distance = self.Face_Identify(face_embd)
-            identity.append((person_name, distance))
+            identity.append((person_name, distance, face_embd))
         return identity
