@@ -48,3 +48,4 @@ class SVM:
     def load_model(self):
         with open(self.classifier_path, "rb") as f:
             model = joblib.load(f)
+        return model
