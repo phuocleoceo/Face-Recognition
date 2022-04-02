@@ -90,5 +90,9 @@ class Facenet:
             face_embd = self.recognizer.Get_Face_Embedding(face)
             # Nhận dạng
             person_name = svm.predict(face_embd)[0]
-            identity.append((person_name, face_embd))
+            # Truy cập vào lại database để lấy ra khoảng cách
+            distance = min([self.Euclidean_Distance(ed, face_embd) for ed in self.database[person_name]])
+            if distance > 1:
+                person_name = "UNKNOWN"
+            identity.append((person_name, distance, face_embd))
         return identity

@@ -6,11 +6,13 @@ import cv2
 # svm = SVM()
 # svm.train()
 
-img = cv2.imread("./Dataset/Test/thinh.jpg")
+# img = cv2.imread("./Dataset/Test/thinh.jpg")
+img = cv2.imread("./Dataset/Test/tzuyu.png")
 
 fn = Facenet()
-identity, embd = fn.Get_People_Identity_SVM(img)[0]
+identity, distance, embd = fn.Get_People_Identity_SVM(img)[0]
 print("Who is this ? => ", identity)
+print("Euclidean Distance : ", distance)
 
 plt.plot(embd[0])
 plt.show()

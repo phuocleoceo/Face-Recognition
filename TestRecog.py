@@ -2,7 +2,9 @@ from Face.Facenet import Facenet
 import matplotlib.pyplot as plt
 import cv2
 
-img = cv2.imread("./Dataset/Test/thinh.jpg")
+
+# img = cv2.imread("./Dataset/Test/thinh.jpg")
+img = cv2.imread("./Dataset/Test/tzuyu.png")
 
 fn = Facenet()
 
