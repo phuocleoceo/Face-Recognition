@@ -32,7 +32,7 @@ class SVM:
         # Phân chia tập train và test
         # Từ 1 embd ta dự đoán ra label tương ứng
         X_train, X_test, Y_train, Y_test = train_test_split(face_embeddings, face_labels,
-                                                            test_size=0.2, random_state=42)
+                                                            test_size=0.2)
 
         # SVC classifier
         model = SVC(kernel="linear", probability=True)
