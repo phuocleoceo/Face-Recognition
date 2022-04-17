@@ -129,4 +129,5 @@ dmypy.json
 .pyre/
 
 test.py
-Model/
+Model/model_weights
+Model/FaceNet_Keras.h5
