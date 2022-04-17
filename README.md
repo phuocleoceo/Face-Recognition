@@ -2,6 +2,10 @@
 
 ## Link pretrain model:
 
-https://drive.google.com/file/d/18S7am0U9eVTmQgG2fQop5MsRgS-EAUs4/view?usp=sharing
+https://drive.google.com/file/d/1qcMrQx21Ef7nY27mOHctRxpk_Jaus99t/view?usp=sharing
 
-=> Save as Model/FaceNet_Keras.h5
+=> Save as Model/model_weights.zip
+
+=> Extract zip fie and run command: python/python3 weight_to_h5.py 
+
+=> H5 file to use !

@@ -6,8 +6,8 @@ import cv2
 # svm = SVM()
 # svm.train()
 
-# img = cv2.imread("./Dataset/Test/thinh.jpg")
-img = cv2.imread("./Dataset/Test/tzuyu.png")
+# img = cv2.imread("./Dataset/Test/Thinh/thinh.jpg")
+img = cv2.imread("./Dataset/UNKNOWN/tzuyu.png")
 
 fn = Facenet()
 identity, distance, embd = fn.Get_People_Identity_SVM(img)[0]

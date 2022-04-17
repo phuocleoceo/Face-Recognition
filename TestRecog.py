@@ -3,8 +3,8 @@ import matplotlib.pyplot as plt
 import cv2
 
 
-# img = cv2.imread("./Dataset/Test/thinh.jpg")
-img = cv2.imread("./Dataset/Test/tzuyu.png")
+# img = cv2.imread("./Dataset/Test/Thinh/thinh.jpg")
+img = cv2.imread("./Dataset/UNKNOWN/tzuyu.png")
 
 fn = Facenet()
 
