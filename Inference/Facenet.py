@@ -1,5 +1,5 @@
-from Face.FaceRecognition import FaceRecognition
-from Face.FaceDetection import FaceDetection
+from Inference.FaceRecognition import FaceRecognition
+from Inference.FaceDetection import FaceDetection
 from scipy.spatial import distance
 from os.path import join, curdir
 from Classifier.SVM import SVM

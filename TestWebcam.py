@@ -1,4 +1,4 @@
-from Face.Facenet import Facenet
+from Inference.Facenet import Facenet
 import cv2
 
 fn = Facenet()

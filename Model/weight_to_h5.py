@@ -1,4 +1,4 @@
-from inception_resnet_v1 import InceptionResNetV1
+from Inference.inception_resnet_v1 import InceptionResNetV1
 from os.path import join
 from os import listdir
 import numpy as np

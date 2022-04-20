@@ -7,9 +7,9 @@ import json
 import cv2
 
 
-class SaveFeatureVector:
-    def __init__(self):
-        self.People_img_path = "Dataset/People"
+class FeatureVector:
+    def __init__(self, People_img_path):
+        self.People_img_path = People_img_path
         self.DB_path = "Database"
         self.DB_file = "Database.json"
         self.detector = FaceDetection()
@@ -77,9 +77,3 @@ class SaveFeatureVector:
             # Lấy vector đặc trưng rồi lưu vào database
             face_embd = self.recognizer.Get_Face_Embedding(face).flatten().tolist()
             self.Save_Feature_To_Database(p_name, face_embd)
-
-
-if __name__ == "__main__":
-    sfv = SaveFeatureVector()
-    sfv.Check_Database()
-    sfv.Get_People_Feature()
