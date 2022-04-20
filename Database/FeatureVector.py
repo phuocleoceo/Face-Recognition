@@ -1,5 +1,5 @@
-from Face.FaceRecognition import FaceRecognition
-from Face.FaceDetection import FaceDetection
+from Inference.FaceRecognition import FaceRecognition
+from Inference.FaceDetection import FaceDetection
 from os.path import join, sep
 from imutils import paths
 from os import listdir
