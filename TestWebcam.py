@@ -10,7 +10,7 @@ while True:
         cv2.imshow("Picture", img)
 
         try:
-            identity, distance, _ = fn.Get_People_Identity(img)[0]
+            identity, distance, _ = fn.Get_People_Identity_SVM(img)[0]
             print("Identity : ", identity, " - ", "Distance : ", distance)
         except:
             print("No face")
