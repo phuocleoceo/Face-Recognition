@@ -62,12 +62,12 @@ class Facenet:
 
         # Nhận diện nhiều gương mặt cho chắc
         identity = []
-        for face in face_crop:
+        for face, box in zip(face_crop, rec):
             # Trích xuất đặc trưng
             face_embd = self.recognizer.Get_Face_Embedding(face)
             # Nhận dạng
             person_name, distance = self.Face_Identify(face_embd)
-            identity.append((person_name, distance, face_embd))
+            identity.append((person_name, distance, face_embd, box))
         return identity
 
     def Get_People_Identity_SVM(self, image, resize=True, scale=4):
@@ -85,7 +85,7 @@ class Facenet:
 
         # Nhận diện nhiều gương mặt cho chắc
         identity = []
-        for face in face_crop:
+        for face, box in zip(face_crop, rec):
             # Trích xuất đặc trưng
             face_embd = self.recognizer.Get_Face_Embedding(face)
             # Nhận dạng
@@ -94,5 +94,5 @@ class Facenet:
             distance = min([self.Euclidean_Distance(ed, face_embd) for ed in self.database[person_name]])
             if distance > 1:
                 person_name = "UNKNOWN"
-            identity.append((person_name, distance, face_embd))
+            identity.append((person_name, distance, face_embd, box))
         return identity
