@@ -1,0 +1,8 @@
+tensorflow
+keras
+opencv-python
+mtcnn
+scikit-learn
+imutils
+matplotlib
+seaborn
