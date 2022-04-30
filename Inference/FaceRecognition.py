@@ -6,6 +6,7 @@ import cv2
 
 class FaceRecognition():
     def __init__(self):
+        self.clahe = self.Create_Clahe()
         # Load lại pretrain model để sử dụng
         try:
             # Join thư mục gọi class với Model/Facenet_Keras.h5
@@ -13,6 +14,26 @@ class FaceRecognition():
             self.model = load_model(model_path)
         except:
             print("Cannot find pretrain model")
+
+    def Create_Clahe(self, clipLimit=1.5, tileGridSize=(8, 8)):
+        """
+        Hàm tạo đối tượng cân bằng sáng thích ứng cho ảnh
+        clipLimit : ngưỡng giới hạn tương phản
+        tileGridSize : kích thước cửa số lọc
+        """
+        return cv2.createCLAHE(clipLimit=clipLimit, tileGridSize=tileGridSize)
+
+    def Adaptive_Histogram_Equalization(self, image):
+        """
+        Hàm cân bằng sáng thích ứng cho ảnh
+        image : ảnh cần cân bằng sáng
+        """
+        # Hệ màu HSV gồm H-HUE: giá trị màu, S-SATURATION: độ bảo hòa, V-VALUE: độ sáng của màu sắc
+        yuv_img = cv2.cvtColor(image, cv2.COLOR_BGR2YUV)
+        # Ap dụng cân bằng histogram chỉ trên độ sáng V của ảnh
+        yuv_img[:, :, 0] = self.clahe.apply(yuv_img[:, :, 0])
+        # Convert về lại hệ BGR
+        return cv2.cvtColor(yuv_img, cv2.COLOR_YUV2BGR)
 
     def Preprocessing_IMG(self, image):
         """
