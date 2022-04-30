@@ -62,6 +62,8 @@ class FaceRecognition():
         return embed / np.sqrt(square_sum)
 
     def Get_Face_Embedding(self, face):
+        # Cân bằng sáng
+        face = self.Adaptive_Histogram_Equalization(face)
         # Tiền xử lý ảnh khuôn mặt sau đó thêm chiều
         processed_face = self.Preprocessing_IMG(face)
         processed_face = np.expand_dims(processed_face, axis=0)
