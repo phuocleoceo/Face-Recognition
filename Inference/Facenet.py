@@ -92,7 +92,7 @@ class Facenet:
             person_name = svm.predict(face_embd)[0]
             # Truy cập vào lại database để lấy ra khoảng cách
             distance = min([self.Euclidean_Distance(ed, face_embd) for ed in self.database[person_name]])
-            if distance > 1:
+            if distance > 0.75:
                 person_name = "UNKNOWN"
             identity.append((person_name, distance, face_embd, box))
         return identity
