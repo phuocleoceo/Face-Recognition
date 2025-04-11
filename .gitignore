@@ -134,3 +134,5 @@ Model/FaceNet_Keras.h5
 Dataset/People
 Dataset/Test
 Dataset/UNKNOWN-TEST
+
+.DS_Store
